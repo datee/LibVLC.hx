@@ -1,0 +1,10 @@
+{
+	"haxe.configurations": [
+	],
+	"editor.codeActionsOnSave": {
+		"source.sortImports": true
+	},
+	"haxe.displayServer": {
+		"arguments": ["-v"]
+	}
+}

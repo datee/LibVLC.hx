@@ -1,0 +1,7 @@
+-cp src
+-cpp bin/build
+-main Main
+-D HXCPP_STACK_TRACE
+-D HXCPP_STACK_LINE
+-D HXCPP_CHECK_POINTER
+# -D HXCPP_M64
