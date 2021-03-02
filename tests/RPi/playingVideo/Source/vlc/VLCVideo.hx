@@ -224,13 +224,28 @@ class VLCVideo extends openfl.display.Bitmap
 		if (!canDraw)
 			return;
 
-		// var buffer:LibVLC_PixelBuffer_p = lockTexture(texture);
-		// var frameSize:UInt = getTextureWidth(texture)*getTextureHeight(texture)*4;
-		// Native.nativeMemcpy(cast buffer, cast getPixelBuffer(), frameSize);
-		// unlockTexture(texture);	
 		if (pixels != null)
 		{
-			this.bitmapData.setPixels( frameRect, Bytes.ofData(pixels) );
+			// this.bitmapData.setPixels( frameRect, Bytes.ofData(pixels) );
+
+			// Warning! Custom buffer copy - VLC buffer directly to Lime
+			var data = this.bitmapData.image.buffer.data;
+			var stride = this.bitmapData.image.buffer.stride;
+			var ss:Int=4;
+			var ww:Int = Std.int(width);
+			for (yy in 0...Std.int(height))
+			{
+				for (xx in 0...Std.int(width))
+				{
+					data[yy * stride + xx * ss + 0] = pixels[(yy * ww + xx) * ss + 0];
+					data[yy * stride + xx * ss + 1] = pixels[(yy * ww + xx) * ss + 1];
+					data[yy * stride + xx * ss + 2] = pixels[(yy * ww + xx) * ss + 2];
+					data[yy * stride + xx * ss + 3] = 255;
+				}
+			}
+
+			this.bitmapData.image.dirty = true;
+			this.bitmapData.image.version++;
 		}		
 	}
 
